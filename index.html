@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Sneaker Slider</title>
+  <style>
+    body {
+      height: 100vh;
+      margin: 0;
+      align-items: center;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+      min-width: 375px;
+    }
+
+    input {
+      width: 365px;
+    }
+   
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas" width="365" height="270"></canvas>
+  <input type="range" min="1" max="36" step="1" value="1" id="slider">
+  <script>
+    const slider = document.querySelector('#slider')
+    const canvas = document.querySelector('#canvas')
+    slider.addEventListener('input', handleInputSlider)
+    const ctx = canvas.getContext('2d')
+    const images = []
+    window.addEventListener('load', pageLoaded)
+    function pageLoaded() {
+      for (let i = 1; i <= 36; i += 1) {
+        
+        const number = i.toString().padStart(2, '00')
+        const url = `https://stockx-360.imgix.net/Nike-Mercurial-Superfly-360-Elite-FG-Lvl-Up-Pure-Platinum/Images/Nike-Mercurial-Superfly-360-Elite-FG-Lvl-Up-Pure-Platinum/Lv2/img${number}.jpg?auto=format,compress&amp;w=559&amp;q=90&amp;dpr=2&amp;updated_at=1574449122`;
+        console.log(number)
+        const image = new Image()
+        image.src = url
+        image.addEventListener('load', () => {
+          images[i] = image
+          if (i === 1) {
+            loadImage(i)
+          }
+        })
+      }
+    }
+    function loadImage(index) {
+      ctx.drawImage(images[index], 0, 0, canvas.width, canvas.height)
+    }
+    function handleInputSlider() {
+      console.log(this.value)
+      loadImage(this.value)
+    }
+  </script>
+</body>
+
+</html>
